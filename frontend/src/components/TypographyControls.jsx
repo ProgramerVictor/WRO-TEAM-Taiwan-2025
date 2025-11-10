@@ -28,7 +28,7 @@ export default function TypographyControls({ className, compact = false }) {
     const fontSizes = ['small', 'standard', 'large', 'senior-friendly', 'extra-large'];
 
     // Handle both old Chinese font sizes and new English font sizes, with fallback
-    const scaleMultipliers = {
+    const scaleMultipliers = React.useMemo(() => ({
         // New English font sizes
         'small': 0.875,
         'standard': 1.0,
@@ -41,7 +41,7 @@ export default function TypographyControls({ className, compact = false }) {
         '大': 1.25,
         '長者適用': 1.5,
         '超大': 1.75
-    };
+    }), []);
 
     // Update CSS variables
     const updateFontSize = React.useCallback((newSize) => {
