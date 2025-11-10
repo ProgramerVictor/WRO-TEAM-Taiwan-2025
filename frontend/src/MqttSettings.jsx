@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, CheckCircle, AlertCircle, Bot } from "lucide-react";
-import { Button } from "../components/ui/button";
-import { Input, Label } from "../components/ui/input";
-import { Badge } from "../components/ui/badge";
-import { formatLatency } from "../lib/utils";
+import { Button } from "./components/ui/button";
+import { Input, Label } from "./components/ui/input";
+import { Badge } from "./components/ui/badge";
+import { formatLatency } from "./lib/utils";
 
 const getApiBase = () => {
     const envBase = process.env.REACT_APP_API_BASE;

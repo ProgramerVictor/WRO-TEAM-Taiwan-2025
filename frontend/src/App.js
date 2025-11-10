@@ -4,9 +4,9 @@ import { Settings, Zap, RefreshCw, X } from "lucide-react";
 import AudioSocketPlayer from "./AudioSocketPlayer";
 import RobotSettings from "./MqttSettings";
 import TypographyControls from "./components/TypographyControls";
-import { StatusDot } from "../components/ui/badge";
-import { ThemeToggle } from "../components/ui/theme-toggle";
-import { getConnectionStatus } from "../lib/utils";
+import { StatusDot } from "./components/ui/badge";
+import { ThemeToggle } from "./components/ui/theme-toggle";
+import { getConnectionStatus } from "./lib/utils";
 import { useWebSocketConnection } from "./hooks/useWebSocketConnection";
 
 

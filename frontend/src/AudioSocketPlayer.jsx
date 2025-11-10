@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, MicOff, Play, Pause, Send, Volume2, Loader2 } from "lucide-react";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Badge } from "../components/ui/badge";
-import { cn } from "../lib/utils";
+import { Button } from "./components/ui/button";
+import { Input } from "./components/ui/input";
+import { Badge } from "./components/ui/badge";
+import { cn } from "./lib/utils";
 
 export default function AudioSocketPlayer({ webSocketConnection, userName, onAssistantText, onUserText }) {
     const audioRef = useRef(null);
