@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: xiaoka-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4.1-nano}
+      - MQTT_BROKER=${MQTT_BROKER:-broker.emqx.io}
+      - MQTT_PORT=${MQTT_PORT:-1883}
+      - MQTT_USERNAME=${MQTT_USERNAME}
+      - MQTT_PASSWORD=${MQTT_PASSWORD}
+      - MQTT_USE_SSL=${MQTT_USE_SSL:-false}
+      - MQTT_PUB_TOPIC=${MQTT_PUB_TOPIC:-robot/events}
+      - MQTT_REPLY_TOPIC=${MQTT_REPLY_TOPIC:-robot/reply}
+      - DEFAULT_ROBOT_ID=${DEFAULT_ROBOT_ID:-wro1}
+      - PORT=8000
+    env_file:
+      - .env  # Load from .env file if exists
+    restart: unless-stopped
+    volumes:
+      - ./:/app  # Mount current directory for development
+    networks:
+      - xiaoka-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/mqtt/broker"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  xiaoka-network:
+    driver: bridge
+

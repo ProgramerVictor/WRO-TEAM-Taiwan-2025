@@ -1,0 +1,728 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ======================================================================
+     * ENTERPRISE TYPOGRAPHY SYSTEM v2.0
+     * Accessibility-First | Elderly-Optimized | Responsive | Future-Proof
+     * ====================================================================== */
+
+    /* Base sizes - 25% larger than standard for elderly accessibility */
+    --typo-base-size: 20px;
+    /* Was 16px - WCAG AAA compliance */
+    --typo-base-line-height: 1.6;
+    /* Increased for readability */
+    --typo-base-letter-spacing: 0.01em;
+    /* Enhanced letter spacing */
+
+    /* Hierarchical scale - Mathematically precise */
+    --typo-scale-ratio: 1.333;
+    /* Perfect fourth ratio */
+    --typo-xs: calc(var(--typo-base-size) / var(--typo-scale-ratio) / var(--typo-scale-ratio));
+    /* 15px */
+    --typo-sm: calc(var(--typo-base-size) / var(--typo-scale-ratio));
+    /* 15px */
+    --typo-md: var(--typo-base-size);
+    /* 20px */
+    --typo-lg: calc(var(--typo-base-size) * var(--typo-scale-ratio));
+    /* 26.67px */
+    --typo-xl: calc(var(--typo-lg) * var(--typo-scale-ratio));
+    /* 35.56px */
+    --typo-2xl: calc(var(--typo-xl) * var(--typo-scale-ratio));
+    /* 47.41px */
+    --typo-3xl: calc(var(--typo-2xl) * var(--typo-scale-ratio));
+    /* 63.21px */
+
+    /* Semantic typography tokens */
+    --typo-display-hero: var(--typo-3xl);
+    /* 63px - Main app title */
+    --typo-display-heading: var(--typo-2xl);
+    /* 47px - Section headings */
+    --typo-display-title: var(--typo-xl);
+    /* 36px - Card titles */
+    --typo-display-subtitle: var(--typo-lg);
+    /* 27px - Subtitles */
+
+    /* Interactive elements */
+    --typo-interactive-primary: var(--typo-lg);
+    /* 27px - Primary buttons */
+    --typo-interactive-secondary: var(--typo-md);
+    /* 20px - Secondary buttons */
+    --typo-interactive-tertiary: var(--typo-sm);
+    /* 15px - Tertiary actions */
+
+    /* Content hierarchy */
+    --typo-content-primary: var(--typo-md);
+    /* 20px - Main content */
+    --typo-content-secondary: var(--typo-sm);
+    /* 15px - Secondary content */
+    --typo-content-tertiary: var(--typo-xs);
+    /* 11px - Metadata (minimum) */
+
+    /* AI response specific */
+    --typo-ai-response: var(--typo-lg);
+    /* 27px - AI responses (prominent) */
+    --typo-ai-status: var(--typo-md);
+    /* 20px - Status messages */
+    --typo-ai-metadata: var(--typo-sm);
+    /* 15px - Timestamps, etc. */
+
+    /* Line heights - Generous spacing for improved readability */
+    --typo-lh-tight: 1.25;
+    /* Headings */
+    --typo-lh-normal: 1.5;
+    /* UI elements */
+    --typo-lh-relaxed: 1.6;
+    /* Body text */
+    --typo-lh-loose: 1.75;
+    /* AI responses */
+
+    /* Letter spacing - Enhanced for visual clarity */
+    --typo-ls-tight: -0.01em;
+    /* Large headings */
+    --typo-ls-normal: 0;
+    /* Standard text */
+    --typo-ls-wide: 0.01em;
+    /* Body text */
+    --typo-ls-wider: 0.02em;
+    /* Small text */
+
+    /* Font weight system */
+    --typo-fw-light: 300;
+    --typo-fw-normal: 400;
+    --typo-fw-medium: 500;
+    --typo-fw-semibold: 600;
+    --typo-fw-bold: 700;
+    --typo-fw-extrabold: 800;
+
+    /* Support for browser zoom and font size preferences */
+    --typo-user-scale: 1;
+    /* Can be overridden via JavaScript for user preferences */
+
+    /* Dark mode adjustments */
+    --typo-dark-adjustment: 1.02;
+    /* Slightly larger text in dark mode */
+
+    /* Legacy typography tokens - DEPRECATED */
+    --fs-display: var(--typo-display-hero);
+    --fs-title: var(--typo-display-title);
+    --fs-subtitle: var(--typo-display-subtitle);
+    --fs-body: var(--typo-content-primary);
+    --fs-small: var(--typo-content-secondary);
+
+    --lh-tight: var(--typo-lh-tight);
+    --lh-normal: var(--typo-lh-normal);
+    --lh-relaxed: var(--typo-lh-relaxed);
+
+    --fw-regular: var(--typo-fw-normal);
+    --fw-medium: var(--typo-fw-medium);
+    --fw-semibold: var(--typo-fw-semibold);
+    --fw-bold: var(--typo-fw-bold);
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --typo-base-size: calc(20px * var(--typo-dark-adjustment));
+    --typo-base-line-height: 1.65;
+    /* Slightly more generous in dark mode */
+
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+  }
+
+  /* High contrast mode */
+  .high-contrast {
+    --typo-fw-normal: 500;
+    /* Bolder base weight */
+    --typo-fw-medium: 600;
+    --typo-fw-semibold: 700;
+    --typo-fw-bold: 800;
+    --typo-ls-wide: 0.02em;
+    /* More letter spacing */
+    --typo-ls-wider: 0.03em;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+    min-height: 100vh;
+    /* Use new semantic typography tokens */
+    font-size: var(--typo-content-primary);
+    font-weight: var(--typo-fw-normal);
+    line-height: var(--typo-lh-relaxed);
+    letter-spacing: var(--typo-ls-wide);
+  }
+
+  /* Enhanced semantic HTML typography with new system */
+  h1 {
+    @apply typo-display-hero;
+  }
+
+  h2 {
+    @apply typo-display-heading;
+  }
+
+  h3 {
+    @apply typo-display-title;
+  }
+
+  h4 {
+    @apply typo-display-subtitle;
+  }
+
+  p {
+    @apply typo-content-primary;
+  }
+
+  small {
+    @apply typo-content-tertiary;
+  }
+
+  /* Interactive elements get semantic typography */
+  button {
+    @apply typo-interactive-secondary;
+  }
+
+  input,
+  textarea {
+    @apply typo-content-primary;
+  }
+}
+
+@layer utilities {
+
+  /* Typography Utility Classes */
+  .typo-display-hero {
+    font-size: var(--typo-display-hero);
+    line-height: var(--typo-lh-tight);
+    font-weight: var(--typo-fw-extrabold);
+    letter-spacing: var(--typo-ls-tight);
+  }
+
+  .typo-display-heading {
+    font-size: var(--typo-display-heading);
+    line-height: var(--typo-lh-tight);
+    font-weight: var(--typo-fw-bold);
+    letter-spacing: var(--typo-ls-tight);
+  }
+
+  .typo-display-title {
+    font-size: var(--typo-display-title);
+    line-height: var(--typo-lh-normal);
+    font-weight: var(--typo-fw-semibold);
+    letter-spacing: var(--typo-ls-normal);
+  }
+
+  .typo-display-subtitle {
+    font-size: var(--typo-display-subtitle);
+    line-height: var(--typo-lh-normal);
+    font-weight: var(--typo-fw-medium);
+    letter-spacing: var(--typo-ls-normal);
+  }
+
+  .typo-interactive-primary {
+    font-size: var(--typo-interactive-primary);
+    line-height: var(--typo-lh-normal);
+    font-weight: var(--typo-fw-semibold);
+    letter-spacing: var(--typo-ls-normal);
+  }
+
+  .typo-interactive-secondary {
+    font-size: var(--typo-interactive-secondary);
+    line-height: var(--typo-lh-normal);
+    font-weight: var(--typo-fw-medium);
+    letter-spacing: var(--typo-ls-normal);
+  }
+
+  .typo-interactive-tertiary {
+    font-size: var(--typo-interactive-tertiary);
+    line-height: var(--typo-lh-normal);
+    font-weight: var(--typo-fw-normal);
+    letter-spacing: var(--typo-ls-wide);
+  }
+
+  .typo-content-primary {
+    font-size: var(--typo-content-primary);
+    line-height: var(--typo-lh-relaxed);
+    font-weight: var(--typo-fw-normal);
+    letter-spacing: var(--typo-ls-wide);
+  }
+
+  .typo-content-secondary {
+    font-size: var(--typo-content-secondary);
+    line-height: var(--typo-lh-relaxed);
+    font-weight: var(--typo-fw-normal);
+    letter-spacing: var(--typo-ls-wide);
+  }
+
+  .typo-content-tertiary {
+    font-size: var(--typo-content-tertiary);
+    line-height: var(--typo-lh-normal);
+    font-weight: var(--typo-fw-normal);
+    letter-spacing: var(--typo-ls-wider);
+  }
+
+  .typo-ai-response {
+    font-size: var(--typo-ai-response);
+    line-height: var(--typo-lh-loose);
+    font-weight: var(--typo-fw-medium);
+    letter-spacing: var(--typo-ls-wide);
+  }
+
+  .typo-ai-status {
+    font-size: var(--typo-ai-status);
+    line-height: var(--typo-lh-normal);
+    font-weight: var(--typo-fw-medium);
+    letter-spacing: var(--typo-ls-normal);
+  }
+
+  .typo-ai-metadata {
+    font-size: var(--typo-ai-metadata);
+    line-height: var(--typo-lh-normal);
+    font-weight: var(--typo-fw-normal);
+    letter-spacing: var(--typo-ls-wider);
+  }
+
+  .typo-elderly-primary-action {
+    font-size: var(--typo-interactive-primary);
+    line-height: var(--typo-lh-normal);
+    font-weight: var(--typo-fw-bold);
+    letter-spacing: var(--typo-ls-normal);
+    text-align: center;
+  }
+
+  .typo-accessible-focus {
+    transition: font-size 150ms ease-out;
+  }
+
+  .typo-accessible-focus:focus-visible {
+    outline: 3px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  /* Legacy text utilities - DEPRECATED - Use semantic classes instead */
+  .text-display {
+    font-size: var(--typo-display-hero);
+    line-height: var(--typo-lh-tight);
+    font-weight: var(--typo-fw-extrabold);
+    letter-spacing: var(--typo-ls-tight);
+  }
+
+  .text-title {
+    font-size: var(--typo-display-title);
+    line-height: var(--typo-lh-normal);
+    font-weight: var(--typo-fw-semibold);
+    letter-spacing: var(--typo-ls-normal);
+  }
+
+  .text-subtitle {
+    font-size: var(--typo-display-subtitle);
+    line-height: var(--typo-lh-normal);
+    font-weight: var(--typo-fw-medium);
+    letter-spacing: var(--typo-ls-normal);
+  }
+
+  .text-body {
+    font-size: var(--typo-content-primary);
+    line-height: var(--typo-lh-relaxed);
+    font-weight: var(--typo-fw-normal);
+    letter-spacing: var(--typo-ls-wide);
+  }
+
+  .text-small {
+    font-size: var(--typo-content-secondary);
+    line-height: var(--typo-lh-relaxed);
+    font-weight: var(--typo-fw-normal);
+    letter-spacing: var(--typo-ls-wide);
+  }
+
+  .digits {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ======================================================================
+   * ELDERLY-OPTIMIZED LAYOUT SYSTEM
+   * Clean | Consistent | Spacious | Readable
+   * ====================================================================== */
+
+  .container-custom {
+    @apply max-w-7xl mx-auto px-6 sm:px-10 lg:px-16;
+    /* Wider for two-column layout */
+  }
+
+  /* Main content container - consistent spacing */
+  .content-container {
+    @apply max-w-3xl mx-auto;
+    /* Consistent width for all content */
+  }
+
+  /* Card containers with consistent styling */
+  .elderly-card {
+    @apply rounded-2xl border-2 bg-white/90 p-10 lg:p-12 shadow-lg dark:bg-gray-900/90 dark:border-gray-700;
+    /* Larger padding, thicker borders, stronger background */
+  }
+
+  .elderly-card-header {
+    @apply mb-8 pb-6 border-b-2 border-gray-200 dark:border-gray-700;
+    /* Clear separation between header and content */
+  }
+
+  .elderly-card-content {
+    @apply space-y-8;
+    /* Generous spacing between content sections */
+  }
+
+  /* Section spacing system */
+  .section-gap-sm {
+    @apply mb-6;
+  }
+
+  .section-gap-md {
+    @apply mb-8;
+  }
+
+  .section-gap-lg {
+    @apply mb-12;
+  }
+
+  .section-gap-xl {
+    @apply mb-16;
+  }
+
+  /* Content spacing system */
+  .content-gap-xs {
+    @apply space-y-3;
+  }
+
+  .content-gap-sm {
+    @apply space-y-4;
+  }
+
+  .content-gap-md {
+    @apply space-y-6;
+  }
+
+  .content-gap-lg {
+    @apply space-y-8;
+  }
+
+  .content-gap-xl {
+    @apply space-y-12;
+  }
+
+  /* Tab system for elderly users */
+  .elderly-tabs {
+    @apply relative flex rounded-3xl bg-white/80 p-2 shadow-md dark:bg-gray-900/80;
+    /* Larger padding, stronger background contrast */
+  }
+
+  .elderly-tab {
+    @apply relative flex-1 rounded-2xl px-6 py-4 text-center transition-all duration-200;
+    @apply typo-interactive-secondary font-medium;
+    /* Larger click areas, better text size */
+  }
+
+  .elderly-tab-active {
+    @apply bg-white shadow-md text-gray-900 dark:bg-gray-800 dark:text-white;
+    /* Clear active state with shadow */
+  }
+
+  .elderly-tab-inactive {
+    @apply text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200;
+    /* Subtle inactive state */
+  }
+
+  /* Form elements for elderly users */
+  .elderly-input {
+    @apply rounded-xl border-2 border-gray-300 bg-white px-6 py-4;
+    @apply typo-content-primary font-medium;
+    @apply focus:border-blue-500 focus:ring-4 focus:ring-blue-200 focus:outline-none;
+    @apply dark:border-gray-600 dark:bg-gray-800 dark:focus:border-blue-400 dark:focus:ring-blue-800/50;
+    /* Larger padding, thicker borders, prominent focus states */
+  }
+
+  .elderly-button {
+    @apply rounded-xl border-2 px-8 py-4 font-semibold transition-all duration-200;
+    @apply typo-interactive-secondary;
+    @apply focus:outline-none focus:ring-4 focus:ring-offset-2;
+    /* Larger padding, clear focus indicators */
+  }
+
+  .elderly-button-primary {
+    @apply elderly-button bg-blue-600 border-blue-600 text-white;
+    @apply hover:bg-blue-700 hover:border-blue-700;
+    @apply focus:ring-blue-200 dark:focus:ring-blue-800/50;
+  }
+
+  .elderly-button-secondary {
+    @apply elderly-button bg-white border-gray-300 text-gray-900;
+    @apply hover:bg-gray-50 hover:border-gray-400;
+    @apply focus:ring-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:text-white;
+    @apply dark:hover:bg-gray-700 dark:focus:ring-gray-800/50;
+  }
+
+  .gradient-bg {
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+  }
+
+  /* Clean and subtle gradient background */
+  .animated-gradient {
+    background:
+      radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.06) 0%, transparent 60%),
+      radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.04) 0%, transparent 60%),
+      radial-gradient(circle at 60% 60%, rgba(236, 72, 153, 0.03) 0%, transparent 60%),
+      linear-gradient(135deg,
+        rgba(59, 130, 246, 0.03) 0%,
+        rgba(139, 92, 246, 0.02) 50%,
+        transparent 100%),
+      linear-gradient(45deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+    animation: gradientMove 30s ease-in-out infinite;
+    background-attachment: fixed;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .animated-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(ellipse 600px 400px at 50% 120%, rgba(56, 189, 248, 0.04) 0%, transparent 70%);
+    animation: overlayFloat 25s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .animated-gradient::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle 300px at 80% 30%, rgba(168, 85, 247, 0.02) 0%, transparent 70%);
+    animation: particleFloat 35s linear infinite;
+    pointer-events: none;
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-sm border border-gray-200/50 dark:bg-gray-900/80 dark:border-gray-700/50;
+  }
+
+  .animate-in {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  .animate-pulse-soft {
+    animation: pulseSoft 2s ease-in-out infinite;
+  }
+
+  /* Brand ring color utility for focus-visible states */
+  .ring-brand {
+    --tw-ring-color: hsl(var(--primary));
+  }
+
+  /* Hero text effects */
+  .hero-text-glow {
+    animation: textGlow 3s ease-in-out infinite alternate;
+  }
+
+  .hero-text-shimmer {
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  .text-3d-effect {
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.8),
+      0 2px 0 rgba(0, 0, 0, 0.1),
+      0 3px 0 rgba(0, 0, 0, 0.1),
+      0 4px 0 rgba(0, 0, 0, 0.1),
+      0 5px 0 rgba(0, 0, 0, 0.1),
+      0 6px 1px rgba(0, 0, 0, 0.1),
+      0 0 5px rgba(0, 0, 0, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      0 3px 5px rgba(0, 0, 0, 0.2),
+      0 5px 10px rgba(0, 0, 0, 0.25);
+  }
+
+
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseSoft {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes gradientMove {
+
+  0%,
+  100% {
+    background-position:
+      20% 80%, 80% 20%, 40% 40%, 60% 60%, 10% 30%, 90% 70%,
+      0% 0%, 0% 0%;
+  }
+
+  25% {
+    background-position:
+      30% 70%, 70% 30%, 50% 30%, 70% 50%, 20% 40%, 80% 60%,
+      25% 25%, 25% 25%;
+  }
+
+  50% {
+    background-position:
+      40% 60%, 60% 40%, 60% 20%, 80% 40%, 30% 50%, 70% 50%,
+      50% 50%, 50% 50%;
+  }
+
+  75% {
+    background-position:
+      10% 90%, 90% 10%, 30% 60%, 50% 70%, 40% 20%, 60% 80%,
+      75% 75%, 75% 75%;
+  }
+}
+
+@keyframes gradientPulse {
+  0% {
+    filter: brightness(1) saturate(1);
+    transform: scale(1);
+  }
+
+  100% {
+    filter: brightness(1.05) saturate(1.1);
+    transform: scale(1.001);
+  }
+}
+
+@keyframes overlayFloat {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 1;
+  }
+
+  33% {
+    transform: translate3d(30px, -20px, 0) rotate(1deg);
+    opacity: 0.8;
+  }
+
+  66% {
+    transform: translate3d(-20px, 10px, 0) rotate(-0.5deg);
+    opacity: 0.9;
+  }
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+
+  25% {
+    transform: translate3d(20px, -30px, 0) rotate(90deg) scale(1.1);
+  }
+
+  50% {
+    transform: translate3d(-10px, 20px, 0) rotate(180deg) scale(0.9);
+  }
+
+  75% {
+    transform: translate3d(-30px, -10px, 0) rotate(270deg) scale(1.05);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) rotate(360deg) scale(1);
+  }
+}
+
+@keyframes textGlow {
+  0% {
+    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3)) brightness(1);
+  }
+
+  100% {
+    filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.5)) brightness(1.1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}

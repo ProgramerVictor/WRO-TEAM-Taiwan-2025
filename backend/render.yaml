@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: xiaoka-backend
+    # Option 1: Python Native (recommended for Render)
+    env: python
+    # Option 2: Docker (uncomment to use Dockerfile)
+    # env: docker
+    # dockerfilePath: ./Dockerfile
+    region: oregon  # Change to your preferred region
+    plan: free  # or starter/standard for production
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false  # You'll set this in Render dashboard
+      - key: OPENAI_MODEL
+        value: gpt-4.1-nano
+      - key: MQTT_BROKER
+        value: broker.emqx.io
+      - key: MQTT_PORT
+        value: 1883
+      - key: MQTT_PUB_TOPIC
+        value: robot/events
+      - key: MQTT_REPLY_TOPIC
+        value: robot/reply
+      - key: PYTHON_VERSION
+        value: 3.11.0
+
