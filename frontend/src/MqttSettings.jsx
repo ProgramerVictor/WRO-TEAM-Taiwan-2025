@@ -77,7 +77,7 @@ export default function RobotSettings({ webSocketConnection }) {
             }
 
             // Wait for response (using a promise with timeout)
-            const response = await new Promise((resolve, reject) => {
+            await new Promise((resolve, reject) => {
                 const timeout = setTimeout(() => reject(new Error("Connection timeout")), 5000);
 
                 const listener = (type, data) => {

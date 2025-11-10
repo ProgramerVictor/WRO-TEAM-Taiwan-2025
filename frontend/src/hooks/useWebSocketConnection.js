@@ -22,7 +22,6 @@ function getWsUrl() {
 }
 
 // 全域狀態管理
-let globalWebSocket = null;
 let globalConnectionState = {
     isConnected: false,
     hasUserInteracted: false,
@@ -104,8 +103,6 @@ class WebSocketManager {
                 }
             };
 
-            globalWebSocket = this.ws;
-
         } catch (error) {
             console.error('[WebSocket] Connection failed:', error);
             this.connectionState.isConnected = false;
@@ -117,7 +114,6 @@ class WebSocketManager {
         if (this.ws) {
             this.ws.close(1000); // 正常關閉
             this.ws = null;
-            globalWebSocket = null;
         }
         this.connectionState.isConnected = false;
         this.notifyListeners('connectionChange', false);
@@ -334,7 +330,7 @@ export function useWebSocketConnection() {
             default:
                 break;
         }
-    }, [hasUserInteracted, isListening]);
+    }, [hasUserInteracted]);
 
     // 初始化連線和狀態恢復
     useEffect(() => {

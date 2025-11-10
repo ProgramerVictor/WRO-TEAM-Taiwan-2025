@@ -205,12 +205,7 @@ export default function AudioSocketPlayer({ webSocketConnection, userName, onAss
         }
     }
 
-    function formatTime(t) {
-        if (!isFinite(t)) return '0:00';
-        const m = Math.floor(t / 60);
-        const s = Math.floor(t % 60).toString().padStart(2, '0');
-        return `${m}:${s}`;
-    }
+    // Removed unused formatTime function
     useEffect(() => {
         if (audioRef.current) {
             const audio = audioRef.current;

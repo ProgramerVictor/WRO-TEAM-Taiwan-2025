@@ -79,7 +79,7 @@ export default function TypographyControls({ className, compact = false }) {
         setTimeout(() => {
             document.body.removeChild(announcement);
         }, 1000);
-    }, []);
+    }, [scaleMultipliers]);
 
     // Update high contrast mode
     const updateHighContrast = React.useCallback((enabled) => {
@@ -106,6 +106,7 @@ export default function TypographyControls({ className, compact = false }) {
     React.useEffect(() => {
         updateFontSize(fontSize);
         updateHighContrast(highContrast);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const adjustFontSize = (direction) => {
