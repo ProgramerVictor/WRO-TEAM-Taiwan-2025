@@ -8,6 +8,7 @@ The project, **“AI Barista – XiaoKa”**, is a robot that integrates AI visi
 ---
 
 ## 🌟 Key Features
+<img width="1861" height="1044" alt="image" src="https://github.com/user-attachments/assets/4adea533-7dec-4441-9b76-9f915cdb2251" />
 
 This project is composed of four major subsystems working together to deliver seamless and safe service:
 
@@ -16,11 +17,15 @@ This project is composed of four major subsystems working together to deliver se
     * **Full voice guidance:** The “XiaoKa” assistant guides the user through every step using voice prompts, creating a sense of companionship.
 
 * **🧠 Smart Image Recognition:**
+*  <img width="436" height="304" alt="image_recognition" src="https://github.com/user-attachments/assets/07873760-28a3-4df9-a4d9-85058eb9764b" />
+
     * **Object recognition:** The AI “eyes” can locate the coffee cup, kettle, and coffee grounds in real time.
     * **Process monitoring:** It monitors the pouring process and water level to ensure accurate brewing.
     * **⚠️ Active Safety (Proactive Protection):** This is our core innovation! The AI continuously checks whether the user’s hand accidentally moves into **danger zones** (such as the hot water pouring path). If it detects this, it **immediately stops** all motion to proactively prevent burns.
 
 * **🦾 Precise Pour-Over Motion:**
+* ![pourovermotion](https://github.com/user-attachments/assets/5b8ac05e-d4f4-46e7-a1e5-2dad07852936)
+
     * **Stable control:** Using a robotic arm and control algorithms, the system performs smooth and stable pouring motions, preventing hot water from splashing or shaking.
 
 * **☁️ IoT Monitoring:**
@@ -69,3 +74,4 @@ To realize powerful AI capabilities and overcome the computing limitations of th
 * **Victor** – Overall design, EV3 hardware construction, mechanical design  
 * **Henry** – EV3 hardware construction, mechanical design, image recognition  
 * **Floyd** – Mentor
+
