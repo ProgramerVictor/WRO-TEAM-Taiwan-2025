@@ -16,6 +16,8 @@ const getApiBase = () => {
     return "";
 };
 
+const ROBOT_ID_STORAGE_KEY = 'wro2025_robot_id';
+
 export default function RobotSettings({ webSocketConnection, isOpen }) {
     const [robotId, setRobotId] = useState("");
     const [currentRobotId, setCurrentRobotId] = useState("");
@@ -27,23 +29,36 @@ export default function RobotSettings({ webSocketConnection, isOpen }) {
     const [toast, setToast] = useState("");
     const { isConnected, wsManager } = webSocketConnection;
 
-    // Load current robot_id from backend whenever settings panel opens
+    // Load robot_id from localStorage first (immediate), then sync with backend
     useEffect(() => {
         if (!isOpen) return;
         
+        // Load from localStorage immediately (no delay)
+        const savedRobotId = localStorage.getItem(ROBOT_ID_STORAGE_KEY);
+        if (savedRobotId) {
+            console.log('[RobotSettings] Loaded from localStorage:', savedRobotId);
+            setRobotId(savedRobotId);
+            setCurrentRobotId(savedRobotId);
+        }
+        
+        // Then fetch from backend to sync (in case it was changed elsewhere)
         setFetchingCurrent(true);
         const API_BASE = getApiBase();
         fetch(`${API_BASE}/robot`)
             .then(r => r.json())
             .then(data => {
-                console.log('[RobotSettings] Fetched robot config:', data);
+                console.log('[RobotSettings] Fetched from backend:', data);
                 if (data && data.default_robot_id) {
+                    // Update if backend has a different value
                     setRobotId(data.default_robot_id);
                     setCurrentRobotId(data.default_robot_id);
+                    // Sync to localStorage
+                    localStorage.setItem(ROBOT_ID_STORAGE_KEY, data.default_robot_id);
                 }
             })
             .catch((err) => {
-                console.error('[RobotSettings] Failed to fetch robot config:', err);
+                console.error('[RobotSettings] Failed to fetch from backend:', err);
+                // Keep using localStorage value if backend fails
             })
             .finally(() => {
                 setFetchingCurrent(false);
@@ -111,7 +126,11 @@ export default function RobotSettings({ webSocketConnection, isOpen }) {
             const t1 = performance.now();
             setLatencyMs(Math.max(0, Math.round(t1 - t0)));
 
-            // Persist robot_id to backend via HTTP POST
+            // Persist robot_id to localStorage (primary storage)
+            localStorage.setItem(ROBOT_ID_STORAGE_KEY, robotId);
+            console.log('[RobotSettings] Saved to localStorage:', robotId);
+
+            // Also persist to backend via HTTP POST (for sync across devices)
             const API_BASE = getApiBase();
             try {
                 const response = await fetch(`${API_BASE}/robot`, {
@@ -121,11 +140,11 @@ export default function RobotSettings({ webSocketConnection, isOpen }) {
                 });
                 const result = await response.json();
                 if (!result.ok) {
-                    console.warn('[RobotSettings] Failed to persist robot_id:', result.error);
+                    console.warn('[RobotSettings] Failed to persist to backend:', result.error);
                 }
             } catch (persistError) {
-                console.warn('[RobotSettings] Failed to persist robot_id:', persistError);
-                // Don't fail the whole operation if persistence fails
+                console.warn('[RobotSettings] Failed to persist to backend:', persistError);
+                // Don't fail - localStorage is our primary storage
             }
 
             setProgress("Connected ✓");
