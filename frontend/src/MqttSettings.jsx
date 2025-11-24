@@ -16,7 +16,7 @@ const getApiBase = () => {
     return "";
 };
 
-export default function RobotSettings({ webSocketConnection }) {
+export default function RobotSettings({ webSocketConnection, isOpen }) {
     const [robotId, setRobotId] = useState("");
     const [currentRobotId, setCurrentRobotId] = useState("");
     const [loading, setLoading] = useState(false);
@@ -26,8 +26,10 @@ export default function RobotSettings({ webSocketConnection }) {
     const [toast, setToast] = useState("");
     const { isConnected, wsManager } = webSocketConnection;
 
-    // Load current robot_id from backend
+    // Load current robot_id from backend whenever settings panel opens
     useEffect(() => {
+        if (!isOpen) return;
+        
         const API_BASE = getApiBase();
         fetch(`${API_BASE}/robot`)
             .then(r => r.json())
@@ -38,7 +40,7 @@ export default function RobotSettings({ webSocketConnection }) {
                 }
             })
             .catch(() => { });
-    }, []);
+    }, [isOpen]);
 
     const validate = (value) => {
         if (!value || !value.trim()) return "Please enter Robot ID";
