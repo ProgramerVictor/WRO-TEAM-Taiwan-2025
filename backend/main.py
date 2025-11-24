@@ -68,14 +68,33 @@ def mqtt_publish_single(topic: str, payload: str, hostname: str):
     )
 
 SYSTEM_PROMPT = (
-    "You are XiaoKa, a friendly coffee robot for elderly users. "
-    "Keep responses under 15 words. Be warm and natural. "
-    "Always ask for and remember user names. "
-    "For 'hello judges': reply 'Hello judges! I am Xiao Ka, please wave! We are ready to move to the next stage!' "
-    "For outdoor activities: enthusiastically offer to join. "
-    "For 'ready'/'start': discuss coffee. "
-    "Speak naturally, never use ACTION: or event: formats."
-    "Ask the user if they are ready to start the coffee making process, then chat with them"
+    "You are XiaoKa, a versatile and friendly AI companion designed for elderly users. "
+    "Your primary function is coffee-making assistance, but you're also a warm conversational partner. "
+    "\n\n"
+    "## Core Principles:\n"
+    "1. **Intent Recognition**: Carefully identify what the user wants to talk about.\n"
+    "2. **Topic Persistence**: Once user initiates a non-coffee topic (stories, general chat, etc.), "
+    "fully commit to that topic. Do NOT interrupt with coffee suggestions.\n"
+    "3. **Content Completion**: When user requests long-form content (stories, explanations), "
+    "deliver it completely without interruptions or topic changes.\n"
+    "4. **Context Awareness**: Only suggest coffee when contextually appropriate or user-initiated.\n"
+    "\n"
+    "## Response Guidelines:\n"
+    "- **Short topics**: Keep under 15 words, warm and natural\n"
+    "- **Long-form content** (stories, detailed explanations): Provide complete, engaging narratives\n"
+    "- Always remember user names when provided\n"
+    "- Speak naturally, never use ACTION: or event: formats in responses\n"
+    "\n"
+    "## Special Responses:\n"
+    "- 'hello judges': 'Hello judges! I am Xiao Ka, please wave! We are ready to move to the next stage!'\n"
+    "- Outdoor activities: Enthusiastically offer to join\n"
+    "- 'ready'/'start' (coffee context): Discuss coffee preparation\n"
+    "\n"
+    "## Topic Management:\n"
+    "- If user explicitly shifts to non-coffee topics (stories, games, general conversation), "
+    "suspend coffee prompts until user returns to that topic\n"
+    "- When telling stories or engaging in non-coffee activities, stay fully engaged until completion\n"
+    "- Only ask about coffee when: (1) User mentions it, (2) Natural conversation lull, (3) Initial greeting"
 )
 
 # ========= FastAPI Lifespan =========
@@ -135,18 +154,23 @@ def print_context_remaining(conv: list, label: str = ""):
     remaining_slots = max(0, total_slots - used_slots)
     print(f"[CONTEXT] {label} - Used: {used_slots}, Remaining: {remaining_slots} (Total slots: {total_slots})")
 
-def get_gpt_response(conversation_history):
+def get_gpt_response(conversation_history, max_tokens=100):
+    """
+    Generate GPT response with adaptive token limits
+    - Short responses: 100 tokens (default)
+    - Long-form content: up to 500 tokens for stories, explanations
+    """
     completion = client.chat.completions.create(
         model=OPENAI_MODEL,
         messages=conversation_history,
         temperature=0.7,  # Lower temperature for faster, more consistent responses
-        max_tokens=100,   # Limit response length for speed
+        max_tokens=max_tokens,
     )
     return completion.choices[0].message.content
 
-async def get_gpt_response_async(conversation_history):
+async def get_gpt_response_async(conversation_history, max_tokens=100):
     def _sync_call():
-        return get_gpt_response(conversation_history)
+        return get_gpt_response(conversation_history, max_tokens)
     return await asyncio.to_thread(_sync_call)
 
 # ========= TTS =========
@@ -227,12 +251,34 @@ async def on_ready_side_effects():
     await _post_when_ready({"event": "ready", "ts": ts})
 
 # ========= AI Process Flow =========
+def detect_long_form_request(user_text: str) -> bool:
+    """
+    Detect if user is requesting long-form content (stories, detailed explanations)
+    """
+    long_form_keywords = [
+        # Story requests
+        "story", "stories", "tale", "tell me about", "故事",
+        # Explanations/details
+        "explain", "describe", "tell me more", "解釋", "說明",
+        # Relaxation/stress relief
+        "relax", "stress", "calm", "放鬆", "壓力",
+        # Long content indicators
+        "long", "detailed", "complete", "full", "詳細", "完整"
+    ]
+    
+    user_lower = user_text.lower()
+    return any(keyword in user_lower or keyword in user_text for keyword in long_form_keywords)
+
 async def process_user_message(conversation_history, user_text: str):
+    # Detect if user wants long-form content (stories, detailed responses)
+    is_long_form = detect_long_form_request(user_text)
+    max_tokens = 500 if is_long_form else 100
+    
     prompt = [{"role": "system", "content": SYSTEM_PROMPT}] + conversation_history[-100:] + [
         {"role": "user", "content": user_text}
     ]
     try:
-        result = await get_gpt_response_async(prompt)
+        result = await get_gpt_response_async(prompt, max_tokens=max_tokens)
         text = (result or "").strip()
         
         # 检测用户输入是否包含准备就绪的意图
