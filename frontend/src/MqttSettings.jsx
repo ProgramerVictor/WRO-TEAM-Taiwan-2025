@@ -103,6 +103,23 @@ export default function RobotSettings({ webSocketConnection, isOpen }) {
             const t1 = performance.now();
             setLatencyMs(Math.max(0, Math.round(t1 - t0)));
 
+            // Persist robot_id to backend via HTTP POST
+            const API_BASE = getApiBase();
+            try {
+                const response = await fetch(`${API_BASE}/robot`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ robot_id: robotId })
+                });
+                const result = await response.json();
+                if (!result.ok) {
+                    console.warn('[RobotSettings] Failed to persist robot_id:', result.error);
+                }
+            } catch (persistError) {
+                console.warn('[RobotSettings] Failed to persist robot_id:', persistError);
+                // Don't fail the whole operation if persistence fails
+            }
+
             setProgress("Connected ✓");
             setCurrentRobotId(robotId);
             setToast(`Now controlling robot: ${robotId}`);
