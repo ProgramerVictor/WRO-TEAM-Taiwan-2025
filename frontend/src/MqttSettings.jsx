@@ -20,6 +20,7 @@ export default function RobotSettings({ webSocketConnection, isOpen }) {
     const [robotId, setRobotId] = useState("");
     const [currentRobotId, setCurrentRobotId] = useState("");
     const [loading, setLoading] = useState(false);
+    const [fetchingCurrent, setFetchingCurrent] = useState(false);
     const [progress, setProgress] = useState("");
     const [latencyMs, setLatencyMs] = useState(null);
     const [error, setError] = useState("");
@@ -30,16 +31,23 @@ export default function RobotSettings({ webSocketConnection, isOpen }) {
     useEffect(() => {
         if (!isOpen) return;
         
+        setFetchingCurrent(true);
         const API_BASE = getApiBase();
         fetch(`${API_BASE}/robot`)
             .then(r => r.json())
             .then(data => {
+                console.log('[RobotSettings] Fetched robot config:', data);
                 if (data && data.default_robot_id) {
                     setRobotId(data.default_robot_id);
                     setCurrentRobotId(data.default_robot_id);
                 }
             })
-            .catch(() => { });
+            .catch((err) => {
+                console.error('[RobotSettings] Failed to fetch robot config:', err);
+            })
+            .finally(() => {
+                setFetchingCurrent(false);
+            });
     }, [isOpen]);
 
     const validate = (value) => {
@@ -133,9 +141,39 @@ export default function RobotSettings({ webSocketConnection, isOpen }) {
     };
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-6">
+            {/* Current Robot ID Display Section */}
+            <div className="rounded-xl border-2 border-emerald-200 bg-emerald-50 dark:border-emerald-800 dark:bg-emerald-950/50 p-4">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-900">
+                            <Bot className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                        </div>
+                        <div>
+                            <div className="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
+                                Current Robot
+                            </div>
+                            {fetchingCurrent ? (
+                                <div className="flex items-center gap-2 mt-1">
+                                    <Loader2 className="h-4 w-4 animate-spin text-emerald-600 dark:text-emerald-400" />
+                                    <span className="text-sm text-emerald-700 dark:text-emerald-300">Loading...</span>
+                                </div>
+                            ) : (
+                                <div className="text-lg font-bold text-emerald-900 dark:text-emerald-100">
+                                    {currentRobotId || "Not set"}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    {currentRobotId && !fetchingCurrent && (
+                        <CheckCircle className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                    )}
+                </div>
+            </div>
+
+            {/* Change Robot ID Section */}
             <div className="space-y-2">
-                <Label htmlFor="robot-input">Robot ID</Label>
+                <Label htmlFor="robot-input">Switch to Different Robot</Label>
                 <Input
                     id="robot-input"
                     value={robotId}
@@ -148,12 +186,6 @@ export default function RobotSettings({ webSocketConnection, isOpen }) {
                 <p id="robot-hint" className="text-xs text-muted-foreground">
                     Enter the ID of the robot you want to control
                 </p>
-                {currentRobotId && (
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Bot className="h-3 w-3" />
-                        <span>Currently controlling: <strong>{currentRobotId}</strong></span>
-                    </div>
-                )}
                 <AnimatePresence>
                     {error && (
                         <motion.div
