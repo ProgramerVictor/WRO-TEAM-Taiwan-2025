@@ -46,9 +46,9 @@ function Header({ connected, dark, onToggleDark, isListening, onReconnect }) {
       </div>
 
       {/* Status Section */}
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        {/* Connection Status - consistent size */}
-        <div className={`flex items-center gap-3 px-6 py-3 rounded-2xl border-2 min-w-[140px] justify-center ${connected
+      <div className="flex flex-wrap items-stretch justify-center gap-4">
+        {/* Connection Status - enforced equal size */}
+        <div className={`flex items-center gap-3 px-6 py-3 rounded-2xl border-2 w-[180px] h-[56px] justify-center ${connected
           ? "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200"
           : "border-red-200 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200"
           }`}>
@@ -58,20 +58,20 @@ function Header({ connected, dark, onToggleDark, isListening, onReconnect }) {
           </span>
         </div>
 
-        {/* Reconnect Button - same size as status */}
+        {/* Reconnect Button - enforced equal size */}
         {!connected && (
           <button
             onClick={onReconnect}
-            className="flex items-center gap-3 px-6 py-3 rounded-2xl border-2 min-w-[140px] justify-center border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-200 hover:bg-blue-100 dark:hover:bg-blue-900/70 transition-colors duration-200 typo-content-primary font-semibold"
+            className="flex items-center gap-3 px-6 py-3 rounded-2xl border-2 w-[180px] h-[56px] justify-center border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-200 hover:bg-blue-100 dark:hover:bg-blue-900/70 transition-colors duration-200 typo-content-primary font-semibold"
           >
             <RefreshCw className="h-4 w-4" />
             Reconnect
           </button>
         )}
 
-        {/* Listening Status */}
+        {/* Listening Status - enforced equal size */}
         {connected && isListening && (
-          <div className="flex items-center gap-3 px-6 py-3 rounded-2xl border-2 border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-200">
+          <div className="flex items-center gap-3 px-6 py-3 rounded-2xl border-2 w-[180px] h-[56px] justify-center border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-200">
             <div className="h-3 w-3 rounded-full bg-blue-500 animate-pulse"></div>
             <span className="typo-content-primary font-semibold">🎤 Listening</span>
           </div>
@@ -140,7 +140,7 @@ function ChatInterface({ messages, connected, isListening, onOpenSettings, webSo
       </header>
 
       {/* Chat Messages Container - Scrollable */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto bg-white/80 backdrop-blur-md dark:bg-gray-900/80">
         <div className="container-custom mx-auto max-w-5xl px-6 py-8">
           {messages.length === 0 ? (
             <div className="rounded-2xl border border-gray-300/50 p-12 text-center bg-white/80 backdrop-blur-md shadow-lg dark:border-gray-600/50 dark:bg-gray-900/80">
@@ -178,7 +178,7 @@ function ChatInterface({ messages, connected, isListening, onOpenSettings, webSo
       </main>
 
       {/* Fixed Chat Input - Always at Bottom */}
-      <div className="flex-shrink-0 p-6 bg-white/80 backdrop-blur-md dark:bg-gray-900/80 border-t border-gray-300/60 dark:border-gray-600/60">
+      <div className="flex-shrink-0 p-6 bg-white/80 backdrop-blur-md dark:bg-gray-900/80">
         <div className="container-custom mx-auto max-w-4xl">
           <div className="bg-white/90 backdrop-blur-lg border border-gray-300/60 rounded-2xl shadow-2xl p-4 dark:bg-gray-900/90 dark:border-gray-600/60">
             <AudioSocketPlayer
