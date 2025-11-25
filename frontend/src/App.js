@@ -16,44 +16,43 @@ function Header({ connected, dark, onToggleDark, isListening, onReconnect }) {
 
   return (
     <motion.header
-      className="min-h-screen flex flex-col items-center justify-center text-center px-4"
+      className="min-h-screen flex flex-col items-center justify-center text-center"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      {/* Content Wrapper - Centered and Pushed Down */}
-      <div className="flex flex-col items-center justify-center mt-16">
-        {/* Logo Section */}
-        <div className="relative flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 shadow-2xl mb-8 animate-pulse-soft">
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-400 to-purple-400 opacity-50 blur-sm animate-pulse"></div>
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/20 to-transparent"></div>
-          <Zap className="relative h-10 w-10 text-white drop-shadow-lg" />
-        </div>
+      {/* Logo Section */}
+      <div className="relative flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 shadow-2xl mb-8 animate-pulse-soft">
+        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-400 to-purple-400 opacity-50 blur-sm animate-pulse"></div>
+        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/20 to-transparent"></div>
+        <Zap className="relative h-10 w-10 text-white drop-shadow-lg" />
+      </div>
 
-        {/* Title Section */}
-        <div className="mb-10 max-w-4xl mx-auto">
-          <h1 className="typo-display-hero font-bold tracking-tight text-center mb-3 text-gray-900 dark:text-white whitespace-nowrap"
-            style={{
-              textShadow: '0 2px 4px rgba(0,0,0,0.1), 0 0 8px rgba(59, 130, 246, 0.2)',
-              filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
-            }}>
-            XiaoKa: AI Real-time Voice Assistant
-          </h1>
-          <p className="typo-display-subtitle text-gray-600 dark:text-gray-300 text-center"
-            style={{
-              textShadow: '0 1px 2px rgba(0,0,0,0.1)'
-            }}>
-            Intelligent conversation, real-time response, designed for seniors
-          </p>
-        </div>
+      {/* Title Section */}
+      <div className="mb-10">
+        <h1 className="typo-display-hero font-bold tracking-tight text-center mb-3 text-gray-900 dark:text-white"
+          style={{
+            textShadow: '0 2px 4px rgba(0,0,0,0.1), 0 0 8px rgba(59, 130, 246, 0.2)',
+            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
+          }}>
+          XiaoKa: AI Real-time Voice Assistant
+        </h1>
+        <p className="typo-display-subtitle text-gray-600 dark:text-gray-300"
+          style={{
+            textShadow: '0 1px 2px rgba(0,0,0,0.1)'
+          }}>
+          Intelligent conversation, real-time response, designed for seniors
+        </p>
+      </div>
 
-        {/* Status Section - Centralized Flow */}
-        <div className="flex flex-col items-center justify-center gap-4">
+      {/* Status Section - Centralized Flow */}
+      <div className="flex flex-col items-center justify-center gap-4">
         {/* Single Consolidated Status Box */}
         <div className={`flex items-center gap-3 px-6 py-3 rounded-2xl border-2 w-[200px] h-[60px] justify-center ${connected
           ? "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200"
           : "border-red-200 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200"
           }`}>
+          <StatusDot connected={connected} />
           <span className="typo-content-primary font-semibold">
             {status.text}
           </span>
@@ -70,11 +69,18 @@ function Header({ connected, dark, onToggleDark, isListening, onReconnect }) {
           </button>
         )}
 
+        {/* Listening Indicator - Stacked Below When Connected and Listening */}
+        {connected && isListening && (
+          <div className="flex items-center gap-3 px-6 py-3 rounded-2xl border-2 w-[200px] h-[60px] justify-center border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-200">
+            <div className="h-3 w-3 rounded-full bg-blue-500 animate-pulse"></div>
+            <span className="typo-content-primary font-semibold">🎤 Listening</span>
+          </div>
+        )}
+
         {/* Theme Toggle - Centered Below Status Flow */}
         <div className="mt-2">
           <ThemeToggle isDark={dark} onToggle={onToggleDark} />
         </div>
-      </div>
       </div>
     </motion.header>
   );
