@@ -32,7 +32,7 @@ function Header({ connected, dark, onToggleDark, isListening, onReconnect }) {
 
         {/* Title Section */}
         <div className="mb-10 max-w-4xl mx-auto">
-          <h1 className="typo-display-hero font-bold tracking-tight text-center mb-3 text-gray-900 dark:text-white"
+          <h1 className="typo-display-hero font-bold tracking-tight text-center mb-3 text-gray-900 dark:text-white whitespace-nowrap"
             style={{
               textShadow: '0 2px 4px rgba(0,0,0,0.1), 0 0 8px rgba(59, 130, 246, 0.2)',
               filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
