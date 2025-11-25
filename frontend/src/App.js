@@ -45,10 +45,10 @@ function Header({ connected, dark, onToggleDark, isListening, onReconnect }) {
         </p>
       </div>
 
-      {/* Status Section */}
-      <div className="flex flex-wrap items-stretch justify-center gap-4">
-        {/* Connection Status - enforced equal size */}
-        <div className={`flex items-center gap-3 px-6 py-3 rounded-2xl border-2 w-[180px] h-[56px] justify-center ${connected
+      {/* Status Section - Centralized Flow */}
+      <div className="flex flex-col items-center justify-center gap-4">
+        {/* Single Consolidated Status Box */}
+        <div className={`flex items-center gap-3 px-6 py-3 rounded-2xl border-2 w-[200px] h-[60px] justify-center ${connected
           ? "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-200"
           : "border-red-200 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200"
           }`}>
@@ -58,26 +58,27 @@ function Header({ connected, dark, onToggleDark, isListening, onReconnect }) {
           </span>
         </div>
 
-        {/* Reconnect Button - enforced equal size */}
+        {/* Conditional Retry Button - Stacked Below When Not Connected */}
         {!connected && (
           <button
             onClick={onReconnect}
-            className="flex items-center gap-3 px-6 py-3 rounded-2xl border-2 w-[180px] h-[56px] justify-center border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-200 hover:bg-blue-100 dark:hover:bg-blue-900/70 transition-colors duration-200 typo-content-primary font-semibold"
+            className="flex items-center gap-3 px-6 py-3 rounded-2xl border-2 w-[200px] h-[60px] justify-center border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-200 hover:bg-blue-100 dark:hover:bg-blue-900/70 transition-colors duration-200 typo-content-primary font-semibold"
           >
             <RefreshCw className="h-4 w-4" />
             Reconnect
           </button>
         )}
 
-        {/* Listening Status - enforced equal size */}
+        {/* Listening Indicator - Stacked Below When Connected and Listening */}
         {connected && isListening && (
-          <div className="flex items-center gap-3 px-6 py-3 rounded-2xl border-2 w-[180px] h-[56px] justify-center border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-200">
+          <div className="flex items-center gap-3 px-6 py-3 rounded-2xl border-2 w-[200px] h-[60px] justify-center border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-200">
             <div className="h-3 w-3 rounded-full bg-blue-500 animate-pulse"></div>
             <span className="typo-content-primary font-semibold">🎤 Listening</span>
           </div>
         )}
 
-        <div className="flex items-center">
+        {/* Theme Toggle - Centered Below Status Flow */}
+        <div className="mt-2">
           <ThemeToggle isDark={dark} onToggle={onToggleDark} />
         </div>
       </div>
